@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>麻将局配置</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .table {
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            display: inline-block;
+            width: 250px;
+            height: 400px;
+            position: relative;
+            background-color: #f9f9f9;
+        }
+        .position {
+            border: 1px solid #ccc;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        input {
+            width: 80%;
+            padding: 5px;
+            text-align: center;
+        }
+        .table-name, .date-input {
+            margin: 10px 0;
+        }
+        .save-button {
+            padding: 10px 15px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>麻将局</h1>
+    
+    <div>
+        <label for="dateInput">日期:</label>
+        <input type="text" id="dateInput" placeholder="例如：2025年5月28日" class="date-input">
+    </div>
+
+    <div class="table" id="table1">
+        <input type="text" placeholder="地点+包房+时间" class="table-name">
+        <div class="position">北 <input type="text" placeholder="群名"></div>
+        <div class="position">东 <input type="text" placeholder="群名"></div>
+        <div class="position">南 <input type="text" placeholder="群名"></div>
+        <div class="position">西 <input type="text" placeholder="群名"></div>
+    </div>
+
+    <div class="table" id="table2">
+        <input type="text" placeholder="地点+包房+时间" class="table-name">
+        <div class="position">北 <input type="text" placeholder="群名"></div>
+        <div class="position">东 <input type="text" placeholder="群名"></div>
+        <div class="position">南 <input type="text" placeholder="群名"></div>
+        <div class="position">西 <input type="text" placeholder="群名"></div>
+    </div>
+
+    <div class="table" id="table3">
+        <input type="text" placeholder="地点+包房+时间" class="table-name">
+        <div class="position">北 <input type="text" placeholder="群名"></div>
+        <div class="position">东 <input type="text" placeholder="群名"></div>
+        <div class="position">南 <input type="text" placeholder="群名"></div>
+        <div class="position">西 <input type="text" placeholder="群名"></div>
+    </div>
+
+    <div class="table" id="table3">
+        <input type="text" placeholder="地点+包房+时间" class="table-name">
+        <div class="position">北 <input type="text" placeholder="群名"></div>
+        <div class="position">东 <input type="text" placeholder="群名"></div>
+        <div class="position">南 <input type="text" placeholder="群名"></div>
+        <div class="position">西 <input type="text" placeholder="群名"></div>
+    </div>
+
+    <button class="save-button" onclick="saveData()">保存信息</button>
+
+    <script>
+        // 保存输入数据到 localStorage
+        function saveData() {
+            const date = document.getElementById('dateInput').value;
+            localStorage.setItem('date', date);
+            for (let i = 1; i <= 3; i++) {
+                const tableName = document.querySelector(`#table${i} .table-name`).value;
+                localStorage.setItem(`table${i}Name`, tableName);
+                
+                const positions = document.querySelectorAll(`#table${i} .position input`);
+                positions.forEach((input, index) => {
+                    localStorage.setItem(`table${i}Position${index + 1}`, input.value);
+                });
+            }
+            alert('信息已保存！');
+        }
+
+        // 加载输入数据
+        function loadData() {
+            const date = localStorage.getItem('date');
+            document.getElementById('dateInput').value = date || '';
+
+            for (let i = 1; i <= 3; i++) {
+                const tableName = localStorage.getItem(`table${i}Name`);
+                document.querySelector(`#table${i} .table-name`).value = tableName || '';
+                
+                const positions = document.querySelectorAll(`#table${i} .position input`);
+                positions.forEach((input, index) => {
+                    const name = localStorage.getItem(`table${i}Position${index + 1}`);
+                    input.value = name || '';
+                });
+            }
+        }
+
+        // 网页加载时自动调用loadData函数
+        window.onload = loadData;
+    </script>
+    
+</body>
+</html>
